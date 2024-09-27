@@ -31,13 +31,13 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const WelcomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+class WelcomePage extends StatefulWidget {
+  const WelcomePage({super.key, required this.title});
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -51,22 +51,11 @@ class MyHomePage extends StatefulWidget {
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<WelcomePage> createState() => _WelcomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+class _WelcomePageState extends State<WelcomePage> {
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +75,7 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: const Center(
+      body: Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
         child: Column(
@@ -103,14 +92,70 @@ class _MyHomePageState extends State<MyHomePage> {
           // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
           // action in the IDE, or press "p" in the console), to see the
           // wireframe for each widget.
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            Text(
-              'Шаломеенко Андрей \nИКБО-07-21 \nНомер студенческого: 21И1958', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.cyan, fontSize: 48),
-            ),
+            const Text(
+              'Добро пожаловать в Помощник поэта! \nНажмите на кнопку ниже, чтобы начать', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.cyan, fontSize: 48),
+            ), FloatingActionButton(onPressed: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context) => SecondWidget()));
+            },child: const Icon(Icons.start_sharp),),
           ],
         ),
       ),
+
     );
   }
 }
+
+class SecondWidget extends StatelessWidget{
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text("Основы работы с приложением")),
+      body: Center( child:
+      Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            const Text("Помощник поэта - приложение, позволяющее учиться рифмовать как Бог"),
+            FloatingActionButton(onPressed: ()
+            {
+        Navigator.push(context, MaterialPageRoute(builder: (context) => ThirdWidget()));
+      },child: const Icon(Icons.navigate_next_sharp))])),
+    );
+  }
+}
+
+class ThirdWidget extends StatelessWidget{
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text("Основы работы с приложением: 2")),
+      body: Center( child:  Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly,   children: <Widget>[ Text("Помощник поэта включает в себя: \nГенератор рифм, который позволит тебе подобрать рифму даже к самым сложным и необычным словам\nЗаметки, в которых можно сохранить все порывы вдохновения, пришедшие тебе в голову\n Библиотеку статей, где ты сможешь узнать все ньюансы и тонкости стихосложения"), FloatingActionButton(onPressed: (){
+        Navigator.push(context, MaterialPageRoute(builder: (context) => FourthWidget()));
+      },child: const Icon(Icons.navigate_next_sharp))])),
+    );
+  }
+}
+
+class FourthWidget extends StatelessWidget{
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text("Основы работы с приложением: 3")),
+      body: Center( child:  Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly,   children: <Widget>[ Text("По всем вопросам обращайтесь в телегу \n@The_VengefulOne"), FloatingActionButton(onPressed: (){
+        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => MainPage()), (Route<dynamic> route) => false);
+      },child: const Icon(Icons.navigate_next_sharp))]),
+    ));
+  }
+}
+
+class MainPage extends StatelessWidget{
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text("Главная")),
+      body: Center(child: Text("Главный экран будущего приложения", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.cyan, fontSize: 48))),
+    );
+  }
+}
+
