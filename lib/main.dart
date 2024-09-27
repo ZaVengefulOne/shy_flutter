@@ -192,14 +192,16 @@ class _NotesPageState extends State<NotesPage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: items.map((item) => Text(item,
-              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.cyan, fontSize: 48), textAlign: TextAlign.center)).toList(),
-        ),
-      ),
-
+      body: SingleChildScrollView( child: Column(mainAxisAlignment: MainAxisAlignment.center, children: <Widget> [
+        Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: <Widget> [
+          FloatingActionButton(onPressed: () => setState(() => items.remove("Заметка №${items.length}")), child: Icon(Icons.remove_circle_outline_sharp),),
+          FloatingActionButton(onPressed: () => setState(() => items.add("Заметка №${items.length+1}")), child: Icon(Icons.add_circle_outline_sharp),)],),
+      Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: items.map((item) => Text(item,
+                style: TextStyle(fontWeight: FontWeight.bold, color: Colors.cyan, fontSize: 48), textAlign: TextAlign.center)).toList(),
+          ),
+      ]),)
     );
   }
 }
@@ -219,11 +221,15 @@ class _GeneratorPageState extends State<GeneratorPage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: ListView.builder(
-        itemBuilder: (_, position) => Text(items[position], style: TextStyle(fontWeight: FontWeight.bold, color: Colors.cyan, fontSize: 48), textAlign: TextAlign.center),
-        itemCount: items.length,
-      ),
-
+      body: ListView(children: items.map((item) => GestureDetector(
+        key: ValueKey(item),
+        onTap: () => setState(() => items.remove(item)),
+        onLongPress: () => setState(() => items.add("Рифма №${items.length+1}")),
+        child: Padding(padding: const EdgeInsets.all(16),
+        child: Text(item),
+        ),
+      )).toList()
+      ,)
     );
   }
 }
@@ -243,12 +249,16 @@ class _LibraryPageState extends State<LibraryPage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: ListView.separated(
-        itemBuilder: (_, position) => Text(items[position], style: TextStyle(fontWeight: FontWeight.bold, color: Colors.cyan, fontSize: 48), textAlign: TextAlign.center),
-        separatorBuilder: (_, __) => const Divider(),
-        itemCount: items.length,
-      ),
-
+      body: Column(mainAxisAlignment: MainAxisAlignment.center, children: <Widget> [
+        Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: <Widget> [
+          FloatingActionButton(onPressed: () => setState(() => items.remove("Статья №${items.length}")), child: Icon(Icons.remove_circle_outline_sharp),),
+          FloatingActionButton(onPressed: () => setState(() => items.add("Статья №${items.length+1}")), child: Icon(Icons.add_circle_outline_sharp),)],),
+          Expanded(child: SizedBox(height: 200.0, child: ListView.separated(
+            itemBuilder: (_, position) => Text(items[position], style: TextStyle(fontWeight: FontWeight.bold, color: Colors.cyan, fontSize: 48), textAlign: TextAlign.center),
+            separatorBuilder: (_, __) => const Divider(),
+            itemCount: items.length,
+          ),))
+        ],)
     );
   }
 }
