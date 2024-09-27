@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -148,19 +151,37 @@ class FourthWidget extends StatelessWidget{
       appBar: AppBar(title: Text("Основы работы с приложением: 3")),
       body: Center( child:  Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly,   children: <Widget>[ Text("По всем вопросам обращайтесь в телегу "
           "\n@The_VengefulOne", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.cyan, fontSize: 36), textAlign: TextAlign.center), FloatingActionButton(onPressed: (){
-        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => MainPage()), (Route<dynamic> route) => false);
+        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => MainScreen()), (Route<dynamic> route) => false);
       },child: const Icon(Icons.done_sharp))]),
     ));
   }
 }
 
-class MainPage extends StatelessWidget{
+class MainScreen extends StatelessWidget{
+  late String platform;
   @override
   Widget build(BuildContext context) {
+    if (kIsWeb == true){
+      platform = "Web";
+    }else {
+      if (Platform.isAndroid == true) {
+        platform = "Android";
+      } else if (Platform.isLinux == true) {
+        platform = "Linux";
+      } else if (Platform.isWindows == true) {
+        platform = "Windows";
+      } else if (Platform.isMacOS == true) {
+        platform = "MacOS";
+      } else if (Platform.isIOS == true) {
+        platform = "IOS";
+      } else if (Platform.isFuchsia == true) {
+        platform = "Fuchsia";
+      }
+    }
     return Scaffold(
       appBar: AppBar(title: Text("Главная")),
       body: Center(child: Column (mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: <Widget> [
-        const Text("Главный экран будущего приложения",
+         Text("Главный экран будущего приложения на $platform",
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.cyan, fontSize: 48), textAlign: TextAlign.center),
       Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: <Widget> [
         FloatingActionButton(onPressed: (){
