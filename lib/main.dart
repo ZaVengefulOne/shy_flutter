@@ -116,7 +116,7 @@ class SecondWidget extends StatelessWidget{
       Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            const Text("Помощник поэта - приложение, позволяющее учиться рифмовать как Бог"),
+            const Text("Помощник поэта - приложение, позволяющее учиться рифмовать как Бог", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.cyan, fontSize: 48), textAlign: TextAlign.center),
             FloatingActionButton(onPressed: ()
             {
         Navigator.push(context, MaterialPageRoute(builder: (context) => ThirdWidget()));
@@ -130,7 +130,11 @@ class ThirdWidget extends StatelessWidget{
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Основы работы с приложением: 2")),
-      body: Center( child:  Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly,   children: <Widget>[ Text("Помощник поэта включает в себя: \nГенератор рифм, который позволит тебе подобрать рифму даже к самым сложным и необычным словам\nЗаметки, в которых можно сохранить все порывы вдохновения, пришедшие тебе в голову\n Библиотеку статей, где ты сможешь узнать все ньюансы и тонкости стихосложения"), FloatingActionButton(onPressed: (){
+      body: Center( child:  Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly,   children: <Widget>[ Text("Помощник поэта включает в себя: "
+          "\nГенератор рифм, который позволит тебе подобрать рифму даже к самым сложным и необычным словам"
+          "\nЗаметки, в которых можно сохранить все порывы вдохновения, пришедшие тебе в голову"
+          "\n Библиотеку статей, где ты сможешь узнать все ньюансы и тонкости стихосложения", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.cyan, fontSize: 36), textAlign: TextAlign.center),
+        FloatingActionButton(onPressed: (){
         Navigator.push(context, MaterialPageRoute(builder: (context) => FourthWidget()));
       },child: const Icon(Icons.navigate_next_sharp))])),
     );
@@ -142,9 +146,10 @@ class FourthWidget extends StatelessWidget{
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Основы работы с приложением: 3")),
-      body: Center( child:  Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly,   children: <Widget>[ Text("По всем вопросам обращайтесь в телегу \n@The_VengefulOne"), FloatingActionButton(onPressed: (){
+      body: Center( child:  Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly,   children: <Widget>[ Text("По всем вопросам обращайтесь в телегу "
+          "\n@The_VengefulOne", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.cyan, fontSize: 36), textAlign: TextAlign.center), FloatingActionButton(onPressed: (){
         Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => MainPage()), (Route<dynamic> route) => false);
-      },child: const Icon(Icons.navigate_next_sharp))]),
+      },child: const Icon(Icons.done_sharp))]),
     ));
   }
 }
@@ -154,8 +159,96 @@ class MainPage extends StatelessWidget{
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Главная")),
-      body: Center(child: Text("Главный экран будущего приложения", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.cyan, fontSize: 48))),
+      body: Center(child: Column (mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: <Widget> [
+        const Text("Главный экран будущего приложения",
+          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.cyan, fontSize: 48), textAlign: TextAlign.center),
+      Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: <Widget> [
+        FloatingActionButton(onPressed: (){
+        Navigator.push(context, MaterialPageRoute(builder: (context) => NotesPage(title: 'Заметки',)));
+      },child: const Icon(Icons.notes)),
+        FloatingActionButton(onPressed: (){
+          Navigator.push(context, MaterialPageRoute(builder: (context) => GeneratorPage(title: 'Генератор рифм',)));
+        },child: const Icon(Icons.abc_sharp)),
+        FloatingActionButton(onPressed: (){
+          Navigator.push(context, MaterialPageRoute(builder: (context) => LibraryPage(title: 'Библиотека статей',)));
+        },child: const Icon(Icons.library_books_sharp))
+  ])]))
     );
   }
 }
 
+class NotesPage extends StatefulWidget {
+  const NotesPage({super.key, required this.title});
+  final String title;
+  @override
+  State<NotesPage> createState() => _NotesPageState();
+}
+class _NotesPageState extends State<NotesPage> {
+  final items = List.generate(25, (index) => 'Заметка №${index + 1}');
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: Text(widget.title),
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: items.map((item) => Text(item,
+              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.cyan, fontSize: 48), textAlign: TextAlign.center)).toList(),
+        ),
+      ),
+
+    );
+  }
+}
+
+class GeneratorPage extends StatefulWidget {
+  const GeneratorPage({super.key, required this.title});
+  final String title;
+  @override
+  State<GeneratorPage> createState() => _GeneratorPageState();
+}
+class _GeneratorPageState extends State<GeneratorPage> {
+  final items = List.generate(100, (index) => 'Рифма №${index + 1}');
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: Text(widget.title),
+      ),
+      body: ListView.builder(
+        itemBuilder: (_, position) => Text(items[position], style: TextStyle(fontWeight: FontWeight.bold, color: Colors.cyan, fontSize: 48), textAlign: TextAlign.center),
+        itemCount: items.length,
+      ),
+
+    );
+  }
+}
+
+class LibraryPage extends StatefulWidget {
+  const LibraryPage({super.key, required this.title});
+  final String title;
+  @override
+  State<LibraryPage> createState() => _LibraryPageState();
+}
+class _LibraryPageState extends State<LibraryPage> {
+  final items = List.generate(100, (index) => 'Статья №${index + 1}');
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: Text(widget.title),
+      ),
+      body: ListView.separated(
+        itemBuilder: (_, position) => Text(items[position], style: TextStyle(fontWeight: FontWeight.bold, color: Colors.cyan, fontSize: 48), textAlign: TextAlign.center),
+        separatorBuilder: (_, __) => const Divider(),
+        itemCount: items.length,
+      ),
+
+    );
+  }
+}
