@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-
+import 'package:go_router/go_router.dart';
 void main() {
   runApp(const MyApp());
 }
@@ -10,32 +10,36 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const WelcomePage(title: 'Flutter Demo Home Page'),
+    return MaterialApp.router(
+      routerConfig: _router,
     );
+    // return MaterialApp(
+    //   title: 'Flutter Demo',
+    //   theme: ThemeData(
+    //     // This is the theme of your application.
+    //     //
+    //     // TRY THIS: Try running your application with "flutter run". You'll see
+    //     // the application has a purple toolbar. Then, without quitting the app,
+    //     // try changing the seedColor in the colorScheme below to Colors.green
+    //     // and then invoke "hot reload" (save your changes or press the "hot
+    //     // reload" button in a Flutter-supported IDE, or press "r" if you used
+    //     // the command line to start the app).
+    //     //
+    //     // Notice that the counter didn't reset back to zero; the application
+    //     // state is not lost during the reload. To reset the state, use hot
+    //     // restart instead.
+    //     //
+    //     // This works for code too, not just values: Most code changes can be
+    //     // tested with just a hot reload.
+    //     colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+    //     useMaterial3: true,
+    //   ),
+    //   home: const WelcomePage(title: 'Flutter Demo Home Page'),
+    // );
   }
 }
 
@@ -151,7 +155,8 @@ class FourthWidget extends StatelessWidget{
       appBar: AppBar(title: Text("Основы работы с приложением: 3")),
       body: Center( child:  Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly,   children: <Widget>[ Text("По всем вопросам обращайтесь в телегу "
           "\n@The_VengefulOne", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.cyan, fontSize: 36), textAlign: TextAlign.center), FloatingActionButton(onPressed: (){
-        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => MainScreen()), (Route<dynamic> route) => false);
+        // Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MainScreen()), (Route<dynamic> route) => true);
+        context.go('/main');
       },child: const Icon(Icons.done_sharp))]),
     ));
   }
@@ -185,13 +190,13 @@ class MainScreen extends StatelessWidget{
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.cyan, fontSize: 48), textAlign: TextAlign.center),
       Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: <Widget> [
         FloatingActionButton(onPressed: (){
-        Navigator.push(context, MaterialPageRoute(builder: (context) => NotesPage(title: 'Заметки',)));
+          context.go('/notes');
       },child: const Icon(Icons.notes)),
         FloatingActionButton(onPressed: (){
-          Navigator.push(context, MaterialPageRoute(builder: (context) => GeneratorPage(title: 'Генератор рифм',)));
+          context.go('/generator');
         },child: const Icon(Icons.abc_sharp)),
         FloatingActionButton(onPressed: (){
-          Navigator.push(context, MaterialPageRoute(builder: (context) => LibraryPage(title: 'Библиотека статей',)));
+          context.go('/library');
         },child: const Icon(Icons.library_books_sharp))
   ])]))
     );
@@ -283,3 +288,23 @@ class _LibraryPageState extends State<LibraryPage> {
     );
   }
 }
+
+final GoRouter _router = GoRouter(routes: <RouteBase>[GoRoute(path: '/',
+  builder: (BuildContext context, GoRouterState state){
+    return const WelcomePage(title: 'Добро пожаловать!');
+  },
+  routes: <RouteBase>[
+    GoRoute(path: 'library',builder: (BuildContext context, GoRouterState state){
+      return const LibraryPage(title: 'Библиотека статей',);
+    }),
+    GoRoute(path: 'generator',builder: (BuildContext context, GoRouterState state){
+      return const GeneratorPage(title: 'Генератор рифм',);
+    }),
+    GoRoute(path: 'notes',builder: (BuildContext context, GoRouterState state) {
+      return const NotesPage(title: 'Заметки',);
+    }),
+    GoRoute(path: 'main',builder: (BuildContext context, GoRouterState state) {
+      return MainScreen();
+    }),
+  ],
+)]);
