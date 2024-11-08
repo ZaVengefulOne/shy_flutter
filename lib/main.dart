@@ -1,5 +1,7 @@
+import 'dart:ffi';
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -240,7 +242,10 @@ class _MainScreen extends State<MainScreen> {
         },child: const Icon(Icons.abc_sharp)),
         FloatingActionButton(onPressed: (){
           context.go('/library');
-        },child: const Icon(Icons.library_books_sharp))
+        },child: const Icon(Icons.library_books_sharp)),
+        FloatingActionButton(onPressed: (){
+          context.go('/pics');
+        },child: const Icon(Icons.image_sharp))
   ])]))
     );
   }
@@ -332,6 +337,43 @@ class _LibraryPageState extends State<LibraryPage> {
   }
 }
 
+class PicsPage extends StatelessWidget{
+  const PicsPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    List _urls = [
+      "http://emosurf.com/i/0001yn0InBPd/03.jpg",
+      "https://travel-in-time.org/wp-content/uploads/2019/06/pero-i-chernila-2.jpg",
+      "https://abrakadabra.fun/uploads/posts/2022-02/1645747777_12-abrakadabra-fun-p-fon-pero-i-chernilnitsa-18.jpg",
+      "https://s.poembook.ru/theme/1d/d4/a6/4248b282468f0d7e583e28bc34de34a2324c1406.png",
+      "https://stihi.ru/pics/2015/09/03/9851.jpg",
+    ];
+    return Scaffold(
+        body: SingleChildScrollView( child:  Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly,   children: <Widget>[
+          CachedNetworkImage(imageUrl: _urls[0],
+            progressIndicatorBuilder: (context, url, progress) => const CircularProgressIndicator(),
+            errorWidget: (context, url, error) => const Center(child: Icon(Icons.error, color: Colors.red,),),),
+          CachedNetworkImage(imageUrl: _urls[1],
+            progressIndicatorBuilder: (context, url, progress) => const CircularProgressIndicator(),
+            errorWidget: (context, url, error) => const Center(child: Icon(Icons.error, color: Colors.red,),),),
+          CachedNetworkImage(imageUrl: _urls[2],
+            progressIndicatorBuilder: (context, url, progress) => const CircularProgressIndicator(),
+            errorWidget: (context, url, error) => const Center(child: Icon(Icons.error, color: Colors.red,),),),
+          CachedNetworkImage(imageUrl: _urls[3],
+            progressIndicatorBuilder: (context, url, progress) => const CircularProgressIndicator(),
+            errorWidget: (context, url, error) => const Center(child: Icon(Icons.error, color: Colors.red,),),),
+          CachedNetworkImage(imageUrl: _urls[4],
+            progressIndicatorBuilder: (context, url, progress) => const CircularProgressIndicator(),
+            errorWidget: (context, url, error) => const Center(child: Icon(Icons.error, color: Colors.red,),),),
+          FloatingActionButton(onPressed: (){
+            context.go('/main');
+          },child: const Icon(Icons.arrow_back_sharp))
+        ]),
+        ));
+  }
+}
+
 final GoRouter _router = GoRouter(routes: <RouteBase>[GoRoute(path: '/',
   builder: (BuildContext context, GoRouterState state){
     return const WelcomePage(title: 'Добро пожаловать!');
@@ -345,6 +387,9 @@ final GoRouter _router = GoRouter(routes: <RouteBase>[GoRoute(path: '/',
     }),
     GoRoute(path: 'notes',builder: (BuildContext context, GoRouterState state) {
       return const NotesPage(title: 'Заметки',);
+    }),
+    GoRoute(path: 'pics',builder: (BuildContext context, GoRouterState state) {
+      return const PicsPage();
     }),
     GoRoute(path: 'main',builder: (BuildContext context, GoRouterState state) {
       return MainScreen();
