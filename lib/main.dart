@@ -15,29 +15,30 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
+      title: 'VengefluTter',
+        theme: ThemeData(
+          // This is the theme of your application.
+          //
+          // TRY THIS: Try running your application with "flutter run". You'll see
+          // the application has a purple toolbar. Then, without quitting the app,
+          // try changing the seedColor in the colorScheme below to Colors.green
+          // and then invoke "hot reload" (save your changes or press the "hot
+          // reload" button in a Flutter-supported IDE, or press "r" if you used
+          // the command line to start the app).
+          //
+          // Notice that the counter didn't reset back to zero; the application
+          // state is not lost during the reload. To reset the state, use hot
+          // restart instead.
+          //
+          // This works for code too, not just values: Most code changes can be
+          // tested with just a hot reload.
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.cyan),
+          useMaterial3: true,
+        ),
       routerConfig: _router,
     );
     // return MaterialApp(
-    //   title: 'Flutter Demo',
-    //   theme: ThemeData(
-    //     // This is the theme of your application.
-    //     //
-    //     // TRY THIS: Try running your application with "flutter run". You'll see
-    //     // the application has a purple toolbar. Then, without quitting the app,
-    //     // try changing the seedColor in the colorScheme below to Colors.green
-    //     // and then invoke "hot reload" (save your changes or press the "hot
-    //     // reload" button in a Flutter-supported IDE, or press "r" if you used
-    //     // the command line to start the app).
-    //     //
-    //     // Notice that the counter didn't reset back to zero; the application
-    //     // state is not lost during the reload. To reset the state, use hot
-    //     // restart instead.
-    //     //
-    //     // This works for code too, not just values: Most code changes can be
-    //     // tested with just a hot reload.
-    //     colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-    //     useMaterial3: true,
-    //   ),
+    //
     //   home: const WelcomePage(title: 'Flutter Demo Home Page'),
     // );
   }
@@ -104,7 +105,7 @@ class _WelcomePageState extends State<WelcomePage> {
             const Text(
               'Добро пожаловать в Помощник поэта! \nНажмите на кнопку ниже, чтобы начать', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.cyan, fontSize: 48),
             ), FloatingActionButton(onPressed: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context) => SecondWidget()));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const SecondWidget()));
             },child: const Icon(Icons.start_sharp),),
           ],
         ),
@@ -115,10 +116,12 @@ class _WelcomePageState extends State<WelcomePage> {
 }
 
 class SecondWidget extends StatelessWidget{
+  const SecondWidget({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Основы работы с приложением")),
+      appBar: AppBar(title: const Text("Основы работы с приложением")),
       body: Center( child:
       Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -126,34 +129,38 @@ class SecondWidget extends StatelessWidget{
             const Text("Помощник поэта - приложение, позволяющее учиться рифмовать как Бог", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.cyan, fontSize: 48), textAlign: TextAlign.center),
             FloatingActionButton(onPressed: ()
             {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => ThirdWidget()));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => const ThirdWidget()));
       },child: const Icon(Icons.navigate_next_sharp))])),
     );
   }
 }
 
 class ThirdWidget extends StatelessWidget{
+  const ThirdWidget({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Основы работы с приложением: 2")),
-      body: Center( child:  Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly,   children: <Widget>[ Text("Помощник поэта включает в себя: "
+      appBar: AppBar(title: const Text("Основы работы с приложением: 2")),
+      body: Center( child:  Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly,   children: <Widget>[ const Text("Помощник поэта включает в себя: "
           "\nГенератор рифм, который позволит тебе подобрать рифму даже к самым сложным и необычным словам"
           "\nЗаметки, в которых можно сохранить все порывы вдохновения, пришедшие тебе в голову"
           "\n Библиотеку статей, где ты сможешь узнать все ньюансы и тонкости стихосложения", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.cyan, fontSize: 36), textAlign: TextAlign.center),
         FloatingActionButton(onPressed: (){
-        Navigator.push(context, MaterialPageRoute(builder: (context) => FourthWidget()));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => const FourthWidget()));
       },child: const Icon(Icons.navigate_next_sharp))])),
     );
   }
 }
 
 class FourthWidget extends StatelessWidget{
+  const FourthWidget({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Основы работы с приложением: 3")),
-      body: Center( child:  Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly,   children: <Widget>[ Text("По всем вопросам обращайтесь в телегу "
+      appBar: AppBar(title: const Text("Основы работы с приложением: 3")),
+      body: Center( child:  Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly,   children: <Widget>[ const Text("По всем вопросам обращайтесь в телегу "
           "\n@The_VengefulOne", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.cyan, fontSize: 36), textAlign: TextAlign.center), FloatingActionButton(onPressed: (){
         // Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MainScreen()), (Route<dynamic> route) => true);
         context.go('/main');
@@ -162,10 +169,19 @@ class FourthWidget extends StatelessWidget{
   }
 }
 
-class MainScreen extends StatelessWidget{
-  late String platform;
+class MainScreen extends StatefulWidget {
+  MainScreen({super.key});
+  @override
+  State<MainScreen> createState() => _MainScreen();
+}
+class _MainScreen extends State<MainScreen> {
+  String futureText = "Выполняется продолжительная работа при помощи Future, пожалуйста, подождите...";
+  String asyncText = "А здесь выполняется Async-работа, ожидайте...";
   @override
   Widget build(BuildContext context) {
+    late String platform;
+
+
     if (kIsWeb == true){
       platform = "Web";
     }else {
@@ -183,11 +199,38 @@ class MainScreen extends StatelessWidget{
         platform = "Fuchsia";
       }
     }
+
+
+    Future<String> getMessage(){
+      return Future.delayed(const Duration(seconds: 3), () => "Эмуляция продолжительной работы завершена успешно!");
+    }
+    Future<String> messageFuture = getMessage();
+    messageFuture.then((message){
+      setState(() {
+        futureText = message;
+      });
+    });
+
+
+    Future<String> asyncGetMessage() {
+      return Future.delayed(Duration(seconds: 6), () => "Тоже успешно выполнена!");
+    }
+    Future<void> messageAsync() async {
+      String asyncMessage = await asyncGetMessage();
+      setState(() {
+        asyncText = asyncMessage;
+      });
+    }
+    messageAsync();
+
+
     return Scaffold(
-      appBar: AppBar(title: Text("Главная")),
+      appBar: AppBar(title: const Text("Главная")),
       body: Center(child: Column (mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: <Widget> [
          Text("Главный экран будущего приложения на $platform",
-          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.cyan, fontSize: 48), textAlign: TextAlign.center),
+          style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.cyan, fontSize: 48), textAlign: TextAlign.center),
+      Text(futureText),
+        Text(asyncText),
       Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: <Widget> [
         FloatingActionButton(onPressed: (){
           context.go('/notes');
@@ -220,12 +263,12 @@ class _NotesPageState extends State<NotesPage> {
       ),
       body: SingleChildScrollView( child: Column(mainAxisAlignment: MainAxisAlignment.center, children: <Widget> [
         Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: <Widget> [
-          FloatingActionButton(onPressed: () => setState(() => items.remove("Заметка №${items.length}")), child: Icon(Icons.remove_circle_outline_sharp),),
-          FloatingActionButton(onPressed: () => setState(() => items.add("Заметка №${items.length+1}")), child: Icon(Icons.add_circle_outline_sharp),)],),
+          FloatingActionButton(onPressed: () => setState(() => items.remove("Заметка №${items.length}")), child: const Icon(Icons.remove_circle_outline_sharp),),
+          FloatingActionButton(onPressed: () => setState(() => items.add("Заметка №${items.length+1}")), child: const Icon(Icons.add_circle_outline_sharp),)],),
       Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: items.map((item) => Text(item,
-                style: TextStyle(fontWeight: FontWeight.bold, color: Colors.cyan, fontSize: 48), textAlign: TextAlign.center)).toList(),
+                style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.cyan, fontSize: 48), textAlign: TextAlign.center)).toList(),
           ),
       ]),)
     );
@@ -277,10 +320,10 @@ class _LibraryPageState extends State<LibraryPage> {
       ),
       body: Column(mainAxisAlignment: MainAxisAlignment.center, children: <Widget> [
         Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: <Widget> [
-          FloatingActionButton(onPressed: () => setState(() => items.remove("Статья №${items.length}")), child: Icon(Icons.remove_circle_outline_sharp),),
-          FloatingActionButton(onPressed: () => setState(() => items.add("Статья №${items.length+1}")), child: Icon(Icons.add_circle_outline_sharp),)],),
+          FloatingActionButton(onPressed: () => setState(() => items.remove("Статья №${items.length}")), child: const Icon(Icons.remove_circle_outline_sharp),),
+          FloatingActionButton(onPressed: () => setState(() => items.add("Статья №${items.length+1}")), child: const Icon(Icons.add_circle_outline_sharp),)],),
           Expanded(child: SizedBox(height: 200.0, child: ListView.separated(
-            itemBuilder: (_, position) => Text(items[position], style: TextStyle(fontWeight: FontWeight.bold, color: Colors.cyan, fontSize: 48), textAlign: TextAlign.center),
+            itemBuilder: (_, position) => Text(items[position], style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.cyan, fontSize: 48), textAlign: TextAlign.center),
             separatorBuilder: (_, __) => const Divider(),
             itemCount: items.length,
           ),))
