@@ -4,9 +4,15 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 void main() {
   runApp(const MyApp());
+}
+
+class DiClass
+{
+ String passedString = "Эта строка будет передана через всё приложение!";
 }
 
 class MyApp extends StatelessWidget {
@@ -46,6 +52,23 @@ class MyApp extends StatelessWidget {
   }
 }
 
+class TestInheritedWidget extends InheritedWidget {
+  TestInheritedWidget({
+    required super.key,
+    required super.child,
+  });
+
+  static TestInheritedWidget? maybeOf(BuildContext context) => context.dependOnInheritedWidgetOfExactType<TestInheritedWidget>();
+
+  static TestInheritedWidget? of (BuildContext context) => context.dependOnInheritedWidgetOfExactType<TestInheritedWidget>();
+
+  final String passedString = "Эта строка передаётся при помощи InheritedWidget!";
+  @override
+  bool updateShouldNotify(covariant InheritedWidget oldWidget) => true;
+
+
+}
+
 class WelcomePage extends StatefulWidget {
   const WelcomePage({super.key, required this.title});
 
@@ -69,6 +92,7 @@ class _WelcomePageState extends State<WelcomePage> {
 
   @override
   Widget build(BuildContext context) {
+    GetIt.instance.registerSingleton<DiClass>(DiClass());
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -122,6 +146,7 @@ class SecondWidget extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
+    // TestInheritedWidget.of(context)?.passedString = "Эта строка была передана через всё приложение";
     return Scaffold(
       appBar: AppBar(title: const Text("Основы работы с приложением")),
       body: Center( child:
@@ -173,6 +198,7 @@ class FourthWidget extends StatelessWidget{
 
 class MainScreen extends StatefulWidget {
   MainScreen({super.key});
+
   @override
   State<MainScreen> createState() => _MainScreen();
 }
@@ -182,8 +208,8 @@ class _MainScreen extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     late String platform;
-
-
+    final passedString = TestInheritedWidget.of(context)?.passedString;
+    var passedClass = GetIt.instance<DiClass>();
     if (kIsWeb == true){
       platform = "Web";
     }else {
@@ -215,7 +241,7 @@ class _MainScreen extends State<MainScreen> {
 
 
     Future<String> asyncGetMessage() {
-      return Future.delayed(Duration(seconds: 6), () => "Тоже успешно выполнена!");
+      return Future.delayed(const Duration(seconds: 6), () => "Тоже успешно выполнена!");
     }
     Future<void> messageAsync() async {
       String asyncMessage = await asyncGetMessage();
@@ -233,6 +259,8 @@ class _MainScreen extends State<MainScreen> {
           style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.cyan, fontSize: 48), textAlign: TextAlign.center),
       Text(futureText),
         Text(asyncText),
+      Text(TestInheritedWidget.of(context)!.passedString),
+      Text(passedClass.passedString),
       Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: <Widget> [
         FloatingActionButton(onPressed: (){
           context.go('/notes');
