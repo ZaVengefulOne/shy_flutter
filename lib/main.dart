@@ -7,7 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 void main() {
-  runApp(const MyApp());
+  runApp(
+    TestInheritedWidget(child: const MyApp())
+  );
 }
 
 class DiClass
@@ -54,7 +56,6 @@ class MyApp extends StatelessWidget {
 
 class TestInheritedWidget extends InheritedWidget {
   TestInheritedWidget({
-    required super.key,
     required super.child,
   });
 
@@ -172,7 +173,7 @@ class ThirdWidget extends StatelessWidget{
       body: Center( child:  Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly,   children: <Widget>[ const Text("Помощник поэта включает в себя: "
           "\nГенератор рифм, который позволит тебе подобрать рифму даже к самым сложным и необычным словам"
           "\nЗаметки, в которых можно сохранить все порывы вдохновения, пришедшие тебе в голову"
-          "\n Библиотеку статей, где ты сможешь узнать все ньюансы и тонкости стихосложения", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.cyan, fontSize: 36), textAlign: TextAlign.center),
+          "\n Библиотеку статей, где ты сможешь узнать все ньюансы и тонкости стихосложения", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.cyan, fontSize: 24), textAlign: TextAlign.center),
         FloatingActionButton(onPressed: (){
         Navigator.push(context, MaterialPageRoute(builder: (context) => const FourthWidget()));
       },child: const Icon(Icons.navigate_next_sharp))])),
@@ -259,7 +260,7 @@ class _MainScreen extends State<MainScreen> {
           style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.cyan, fontSize: 48), textAlign: TextAlign.center),
       Text(futureText),
         Text(asyncText),
-      Text(TestInheritedWidget.of(context)!.passedString),
+      Text(passedString!),
       Text(passedClass.passedString),
       Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: <Widget> [
         FloatingActionButton(onPressed: (){
