@@ -6,6 +6,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'counter.dart';
+
+final counter = Counter();
+
 void main() {
   runApp(const MyApp());
 }
@@ -188,7 +193,13 @@ class FourthWidget extends StatelessWidget{
     return Scaffold(
       appBar: AppBar(title: const Text("Основы работы с приложением: 3")),
       body: Center( child:  Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly,   children: <Widget>[ const Text("По всем вопросам обращайтесь в телегу "
-          "\n@The_VengefulOne", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.cyan, fontSize: 36), textAlign: TextAlign.center), FloatingActionButton(onPressed: (){
+          "\n@The_VengefulOne", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.cyan, fontSize: 36), textAlign: TextAlign.center),
+        Observer(builder: (_) => Text("Оцените моё приложение: ${counter.value}/10", textAlign: TextAlign.center,)),
+        Row(mainAxisAlignment: MainAxisAlignment.center,children: <Widget>[
+          FloatingActionButton(onPressed: counter.increment, child: Icon(Icons.exposure_plus_1_sharp)),
+          FloatingActionButton(onPressed: counter.decrement, child: Icon(Icons.exposure_minus_1_sharp),)
+        ]),
+        FloatingActionButton(onPressed: (){
         // Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MainScreen()), (Route<dynamic> route) => true);
         context.go('/main');
       },child: const Icon(Icons.done_sharp))]),
